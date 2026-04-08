@@ -1,5 +1,6 @@
 {
-    "LatestVersion":  "1.0.1",
+    "LatestVersion":  "1.0.2",
+    "Checksum":  "83917dc2f605c2005399f8b86981552da7c530f1dfb799434f5d2d63b151436f",
     "ReleaseNotes":  "fix: Updated dependencies and improved performance.",
-    "DownloadUrl":  "https://github.com/DaxAPro/TradingNewsApp-Updates/releases/download/v1.0.1/ProTradingSetup.exe"
+    "DownloadUrl":  "https://github.com/DaxAPro/TradingNewsApp-Updates/releases/download/v1.0.2/ProTradingSetup.exe"
 }
