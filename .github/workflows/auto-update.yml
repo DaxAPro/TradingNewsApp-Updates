@@ -1,0 +1,32 @@
+name: Auto Update JSON on Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  update-json:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Update update.json
+        run: |
+          # අලුත් Version එක සහ Release Notes ගැනීම
+          VERSION="${{ github.event.release.tag_name }}"
+          CLEAN_VERSION=${VERSION#v} # 'v' අකුර අයින් කිරීම (v1.0.2 -> 1.0.2)
+          NOTES="${{ github.event.release.body }}"
+          URL="https://github.com/${{ github.repository }}/releases/download/${VERSION}/ProTradingSetup.exe"
+
+          # update.json ෆයිල් එක ඔටෝමැටික් වෙනස් කිරීම
+          jq --arg v "$CLEAN_VERSION" --arg n "$NOTES" --arg u "$URL" \
+            '.LatestVersion = $v | .ReleaseNotes = $n | .DownloadUrl = $u' update.json > tmp.json && mv tmp.json update.json
+
+      - name: Commit and Push Changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-updated update.json for version ${{ github.event.release.tag_name }}"
+          file_pattern: 'update.json'
